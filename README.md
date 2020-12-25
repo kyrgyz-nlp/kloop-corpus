@@ -8,7 +8,7 @@ Crawled content is included in the sqlite3 DB.
 * There are 16 826 articles crawled from 2011 to 2020 (as of December 25, 2020). Due to network failures some of the articles were not crawled.
 * It took more than 12 hours to crawl the articles, because of the more or less gentle crawler settings (I didn't want to stress kloop's servers):
 ```
-ONCURRENT_REQUESTS = 3
+CONCURRENT_REQUESTS = 3
 DOWNLOAD_DELAY = 1
 ```
 
