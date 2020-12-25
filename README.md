@@ -42,7 +42,15 @@ We assume you have the following packages are installed in your system:
 `pipenv shell`
 
 
-* Run the crawler:
+* Run the server:
+`./manage.py runserver`
+
+
+* Open the following URL to view the articles in the admin panel (username: `admin`, password: `123`):
+`http://localhost:8000/admin`
+
+
+* To run the crawler (Note: the DB already contains Kloops articles):
 `python manage.py crawl`
 
 
