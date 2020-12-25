@@ -1,7 +1,21 @@
+import re
 import scrapy
 import dateparser
 
+from w3lib.html import remove_tags
+
 from scraper.items import ArticleItem
+
+
+SCRIPT_TAGS_PATTERN = r'<[ ]*script.*?\/[ ]*script[ ]*>'
+
+
+def _remove_js(text):
+    text_w_script_tag = remove_tags(text, keep=('script',))
+    clean = re.sub(
+        SCRIPT_TAGS_PATTERN, '', text_w_script_tag,
+        flags=(re.IGNORECASE | re.MULTILINE | re.DOTALL))
+    return clean
 
 
 class KloopSpider(scrapy.Spider):
@@ -13,15 +27,11 @@ class KloopSpider(scrapy.Spider):
         articles_links = response.xpath('//h3/a/@href').getall()
         yield from response.follow_all(articles_links, self.parse_article)
 
-        pagination_last_link_title = response.xpath(
-            '//a[@class="last"]/@title').get()
-        if pagination_last_link_title:
-            last_page_num = int(pagination_last_link_title)
-            pages_range = range(1, last_page_num + 1)
-            url_template = 'https://ky.kloop.asia/2011/page/{}/'
-            pagination_links = [
-                url_template.format(page_num) for page_num in pages_range]
-            yield from response.follow_all(pagination_links, self.parse)
+        next_page_url = response.xpath(
+            '//div[@class="page-nav td-pb-padding-side"]/a[last()]/@href'
+        ).get()
+        if next_page_url:
+            yield response.follow(next_page_url, self.parse)
 
     def parse_article(self, response):
         url = response.url
@@ -35,9 +45,9 @@ class KloopSpider(scrapy.Spider):
         post_date = response.xpath(dt_xpath).get()
         created_at = dateparser.parse(post_date)
         item = ArticleItem()
-        item['title'] = title
-        item['text'] = text
+        item['title'] = remove_tags(title)
+        item['text'] = _remove_js(text)
         item['article_url'] = url
         item['created_at'] = created_at
-        item['posted_by'] = posted_by
+        item['posted_by'] = remove_tags(posted_by)
         yield item
