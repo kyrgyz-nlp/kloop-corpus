@@ -2,6 +2,10 @@
 Crawled content is included in the sqlite3 DB.
 
 
+# Credits:
+* Thanks to [Bektour Iskender](https://twitter.com/bektour), we were allowed to crawl and use Kloop articles.
+* Thanks to [Henriette Brand's awesome](https://blog.theodo.com/2019/01/data-scraping-scrapy-django-integration/). My previous attempts to couple Django and Scrapy were [ridiculous](https://github.com/kyrgyz-nlp/readthedocs_cleaned_projects_list/). Her article gave me hints on how to organize the project to make it possible to call Scrapy from within Django.
+
 # Notes:
 * This is currently a work in progress (written in ~8 hours or so).
 * The spider in use doesn't know if an article has already been crawled. So this is a TODO.
