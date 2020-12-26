@@ -9,6 +9,9 @@ scrapy = "*"
 django = "*"
 scrapy-djangoitem = "*"
 dateparser = "*"
+jupyter = "*"
+ipython = "*"
+django-extensions = "*"
 
 [dev-packages]
 ipython = "*"
