@@ -89,4 +89,5 @@ static/frontend/
 # We want to include the db into the repo
 #db.sqlite3
 
-frontend/templates/frontend/index.html
+# Hide analysis dir for now
+analysis/
