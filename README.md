@@ -64,6 +64,7 @@ We assume you have the following packages are installed in your system:
 
 
 ## TODO
+- [ ] Push the current version of the corpus to Hugging Face
 - [ ] Introduce --start-from='2020-04' kind of args to the crawler
 - [ ] Introduce upsert logic: if the article is not in the DB, then crawl and save
 - [ ] Remove extra whitespaces from the articles
