@@ -9,3 +9,4 @@ django-extensions==3.2.1
 ipython==8.5.0
 flake8==5.0.4
 spacy==3.4.1
+transformers==4.22.2
