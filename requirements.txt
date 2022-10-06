@@ -1,0 +1,10 @@
+certifi==2022.9.24
+Scrapy==2.6.3
+Django==4.1.2
+scrapy-djangoitem==1.1.1
+dateparser==1.1.1
+jupyter==1.0.0
+django-extensions==3.2.1
+# dev requirements
+ipython==8.5.0
+flake8==5.0.4
