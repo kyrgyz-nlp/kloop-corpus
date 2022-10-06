@@ -1,3 +1,3 @@
-pipenv shell || true
+source env/bin/activate || true
 conda deactivate || true
-DJANGO_ALLOW_ASYNC_UNSAFE=true && python manage.py shell_plus --notebook
+python manage.py shell_plus --notebook
