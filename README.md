@@ -22,6 +22,12 @@ DOWNLOAD_DELAY = 1
 * Other minor but usefult utils (see the project's `requirements` file).
 
 
+## Explore the corpus
+1. Open a terminal and `./run_jupyter_notebook.sh`
+2. In the Jupyter tab navigate to `kloop_corpus_explorer.ipynb`
+3. Extract articles from the `article` table (`Article` Django model) and have fun
+
+
 ## Prerequisites
 We assume you have the following packages are installed in your system:
 * git
