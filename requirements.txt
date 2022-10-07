@@ -11,3 +11,5 @@ flake8==5.0.4
 spacy==3.4.1
 sentencepiece==0.1.97
 transformers==4.22.2
+# Make sure to install protobuf on your OS
+protobuf==3.20.0
