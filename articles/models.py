@@ -13,3 +13,10 @@ class Article(models.Model):
 
     def __str__(self):
         return f'{self.created_at}-{self.title}'
+
+
+class ArticleNER(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    # NER extracted from Davlan/xlm-roberta-base-ner-hrl
+    ner_raw = models.JSONField(null=True, blank=True)
+    ner_corrected = models.JSONField(null=True, blank=True)
