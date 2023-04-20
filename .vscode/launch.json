@@ -5,7 +5,7 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "crawl",
+			"name": "Django: Crawl",
 			"type": "python",
 			"request": "launch",
 			"program": "${workspaceFolder}/manage.py",
@@ -33,6 +33,28 @@
 				"1",
 				"-v",
 				"https://ky.kloop.asia/2023/01/28/ajyl-charba-ministrligi-piyaz-zhana-sarymsakty-eksporttoogo-ubaktyluu-tyyuu-saluunu-sunushtady/"
+			]
+		},
+		{
+			"name": "Scrapy: parse",
+			"type": "python",
+			"request": "launch",
+			"module": "scrapy",
+			"env": {
+				"SCRAPY_SETTINGS_MODULE": "scraper.settings"
+			},
+			"args": [
+				"parse",
+				"--spider",
+				"kloop",
+				"-c",
+				"parse",
+				"-s",
+				"ROBOTSTXT_OBEY=False",
+				"-d",
+				"1",
+				"-v",
+				"http://ky.kloop.asia/2023/"
 			]
 		}
 	]
