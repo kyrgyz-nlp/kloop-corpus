@@ -59,8 +59,10 @@ class KloopSpider(scrapy.Spider):
         posted_by = response.xpath(
             '//div[@class="td-post-author-name"]/a').get()
         dt_xpath = (
-            '//span[@class="td-post-date td-post-date-no-dot"]/'
-            'time[@class="entry-date updated td-module-date"]/@datetime')
+            '//article//div[@class="td-module-meta-info"]/'
+            'span[@class="td-post-date"]/'
+            'time[@class="entry-date updated td-module-date"]/@datetime'
+        )
         post_date = response.xpath(dt_xpath).get()
         created_at = dateparser.parse(post_date)
         item = ArticleItem()
