@@ -13,8 +13,8 @@ class Command(BaseCommand):
         parser.add_argument('--end-year', type=int)
 
     def handle(self, *args, **options):
-        start_year = options.get('start_year', 2011)
-        end_year = options.get('end_year', 2024)
+        start_year = options.get('start_year') or 2011
+        end_year = options.get('end_year') or 2024
         process = CrawlerProcess(get_project_settings())
 
         process.crawl(KloopSpider, start_year=start_year, end_year=end_year)
