@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 import scrapy
 import dateparser
@@ -20,11 +21,22 @@ def _remove_js(text):
 
 class KloopSpider(scrapy.Spider):
     name = 'kloop'
-    start_urls = [
-        f'http://ky.kloop.asia/{year}/' for year in range(2011, 2021)]
+    start_urls = []
+
+
+    def __init__(self, name=None, **kwargs):
+        super().__init__(name, **kwargs)
+        current_year = datetime.now().year
+        start_year = kwargs.get('start_year', 2011)
+        end_year = kwargs.get('end_year', current_year + 1)
+        self.start_urls = [
+            f'http://ky.kloop.asia/{year}/'
+            for year in range(start_year, end_year)
+        ]
 
     def parse(self, response):
         articles_links = response.xpath('//h3/a/@href').getall()
+        # TODO(murat): check if the URLs are already in the database
         yield from response.follow_all(articles_links, self.parse_article)
 
         next_page_url = response.xpath(
