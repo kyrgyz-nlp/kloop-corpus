@@ -1,10 +1,10 @@
-from datetime import datetime
 import re
 import scrapy
 import dateparser
 
 from w3lib.html import remove_tags
 
+from articles.models import Article
 from scraper.items import ArticleItem
 
 
@@ -26,9 +26,8 @@ class KloopSpider(scrapy.Spider):
 
     def __init__(self, name=None, **kwargs):
         super().__init__(name, **kwargs)
-        current_year = datetime.now().year
-        start_year = kwargs.get('start_year', 2011)
-        end_year = kwargs.get('end_year', current_year + 1)
+        start_year = kwargs.get('start_year')
+        end_year = kwargs.get('end_year')
         self.start_urls = [
             f'http://ky.kloop.asia/{year}/'
             for year in range(start_year, end_year)
@@ -36,8 +35,16 @@ class KloopSpider(scrapy.Spider):
 
     def parse(self, response):
         articles_links = response.xpath('//h3/a/@href').getall()
-        # TODO(murat): check if the URLs are already in the database
-        yield from response.follow_all(articles_links, self.parse_article)
+        valid_links = []
+        # Check if the links are not already in the database
+        for link in articles_links:
+            try:
+                Article.objects.get(article_url=link)
+                log_msg = f'Article {link} already exists in the database'
+                self.logger.info(log_msg)
+            except Article.DoesNotExist:
+                valid_links.append(link)
+        yield from response.follow_all(valid_links, self.parse_article)
 
         next_page_url = response.xpath(
             '//div[@class="page-nav td-pb-padding-side"]/a[last()]/@href'
