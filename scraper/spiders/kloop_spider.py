@@ -1,21 +1,37 @@
+import os
 import re
 import scrapy
 import dateparser
-
+import django
+from datetime import datetime
 from w3lib.html import remove_tags
+
+# Make it possible to run the spider from the project root
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+django.setup()
 
 from articles.models import Article
 from scraper.items import ArticleItem
 
 
-SCRIPT_TAGS_PATTERN = r'<[ ]*script.*?\/[ ]*script[ ]*>'
+def get_tag_pattern(tag_name):
+    res = r'<[ ]*{tag}.*?\/[ ]*{tag}[ ]*>'.format(tag=tag_name)
+    return res
 
 
-def _remove_js(text):
-    text_w_script_tag = remove_tags(text, keep=('script',))
+def clean_with_regex(text, pattern):
     clean = re.sub(
-        SCRIPT_TAGS_PATTERN, '', text_w_script_tag,
+        pattern, '', text,
         flags=(re.IGNORECASE | re.MULTILINE | re.DOTALL))
+    return clean
+
+
+def remove_js_and_css(text):
+    text_w_script_tag = remove_tags(text, keep=('script','style'))
+    script_tag_pattern = get_tag_pattern('script')
+    style_tag_pattern = get_tag_pattern('style')
+    clean = clean_with_regex(text_w_script_tag, script_tag_pattern)
+    clean = clean_with_regex(clean, style_tag_pattern)
     return clean
 
 
@@ -26,8 +42,9 @@ class KloopSpider(scrapy.Spider):
 
     def __init__(self, name=None, **kwargs):
         super().__init__(name, **kwargs)
-        start_year = kwargs.get('start_year')
-        end_year = kwargs.get('end_year')
+        current_year = datetime.now().year
+        start_year = kwargs.get('start_year') or 2011
+        end_year = kwargs.get('end_year') or current_year + 1
         self.start_urls = [
             f'http://ky.kloop.asia/{year}/'
             for year in range(start_year, end_year)
@@ -55,7 +72,7 @@ class KloopSpider(scrapy.Spider):
     def parse_article(self, response):
         url = response.url
         title = response.xpath('//h1[@class="entry-title"]').get()
-        text = response.xpath('//div[@class="td-post-content"]').get()
+        text = response.xpath('//div[contains(@class, "td-post-content")]').get()
         posted_by = response.xpath(
             '//div[@class="td-post-author-name"]/a').get()
         dt_xpath = (
@@ -67,7 +84,7 @@ class KloopSpider(scrapy.Spider):
         created_at = dateparser.parse(post_date)
         item = ArticleItem()
         item['title'] = remove_tags(title)
-        item['text'] = _remove_js(text)
+        item['text'] = remove_js_and_css(text)
         item['article_url'] = url
         item['created_at'] = created_at
         item['posted_by'] = remove_tags(posted_by)
