@@ -8,6 +8,7 @@ from scrapy.selector import Selector
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 
+from articles.models import Article
 from scraper.spiders.helpers import parse_article
 
 LOAD_MORE_TEXT = 'Көбүрөөк жүктө'
@@ -53,12 +54,17 @@ class KloopFeaturesSpider(scrapy.Spider):
         page_content  = Selector(text=await page.content())
         await page.close()
         for link in page_content.css('h3 a::attr(href)').getall():
-            yield scrapy.Request(
-                url=link,
-                callback=self.parse_article,
-                errback=self.close_page
-            )
-    
+            try:
+                await Article.objects.aget(article_url=link)
+                log_msg = f'Article {link} already exists in the database'
+                self.logger.info(log_msg)
+            except Article.DoesNotExist:
+                yield scrapy.Request(
+                    url=link,
+                    callback=self.parse_article,
+                    errback=self.close_page
+                )
+
     def parse_article(self, response):
         yield from parse_article(response)
 
