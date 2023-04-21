@@ -23,7 +23,7 @@ DOWNLOAD_DELAY = 1
 
 -   Django 4 (for robust admin panel and awesome ORM)
 -   Scrapy (for, surprise, scraping)
--   Other minor but usefult utils (see the project's `requirements` file).
+-   Other usefult libs (see the project's `requirements` file).
 
 ## Explore the corpus
 
