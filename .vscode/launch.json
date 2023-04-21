@@ -36,7 +36,7 @@
 			]
 		},
 		{
-			"name": "Scrapy: parse",
+			"name": "Scrapy: main parse",
 			"type": "python",
 			"request": "launch",
 			"module": "scrapy",
@@ -56,6 +56,14 @@
 				"-v",
 				"http://ky.kloop.asia/2023/"
 			]
+		},
+		{
+			"name": "Scrapy: features parse",
+			"type": "python",
+			"request": "launch",
+			"module": "scrapy",
+			"args": ["runspider", "${file}"],
+			"console": "integratedTerminal"
 		}
 	]
 }
