@@ -18,7 +18,10 @@ LOAD_MORE_SELECTOR = f'a:has-text("{LOAD_MORE_TEXT}")'
 class KloopFeaturesSpider(scrapy.Spider):
     name = 'kloop_features'
     allowed_domains = ['ky.kloop.asia']
-    start_urls = ['https://ky.kloop.asia/features/']
+    start_urls = [
+        'https://ky.kloop.asia/category/atajyn-reportazh/',
+        'https://ky.kloop.asia/features/',
+    ]
     custom_settings = {
         "TWISTED_REACTOR": "twisted.internet.asyncioreactor.AsyncioSelectorReactor",
         "DOWNLOAD_HANDLERS": {
