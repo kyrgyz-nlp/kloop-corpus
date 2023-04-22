@@ -6,7 +6,7 @@ from scraper.spiders.kloop_spider import KloopSpider
 
 
 class Command(BaseCommand):
-    help = "Release spiders to crawl articles from 2011 to 2020"
+    help = "Release spiders to crawl news articles"
 
     def add_arguments(self, parser):
         parser.add_argument('--start-year', type=int)
