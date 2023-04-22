@@ -1,7 +1,5 @@
 import os
-import re
 import scrapy
-import dateparser
 import django
 from datetime import datetime
 from w3lib.html import remove_tags
@@ -10,35 +8,13 @@ from w3lib.html import remove_tags
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 
+from scraper.spiders.helpers import parse_article
 from articles.models import Article
-from scraper.items import ArticleItem
-
-
-def get_tag_pattern(tag_name):
-    res = r'<[ ]*{tag}.*?\/[ ]*{tag}[ ]*>'.format(tag=tag_name)
-    return res
-
-
-def clean_with_regex(text, pattern):
-    clean = re.sub(
-        pattern, '', text,
-        flags=(re.IGNORECASE | re.MULTILINE | re.DOTALL))
-    return clean
-
-
-def remove_js_and_css(text):
-    text_w_script_tag = remove_tags(text, keep=('script','style'))
-    script_tag_pattern = get_tag_pattern('script')
-    style_tag_pattern = get_tag_pattern('style')
-    clean = clean_with_regex(text_w_script_tag, script_tag_pattern)
-    clean = clean_with_regex(clean, style_tag_pattern)
-    return clean
 
 
 class KloopSpider(scrapy.Spider):
     name = 'kloop'
     start_urls = []
-
 
     def __init__(self, name=None, **kwargs):
         super().__init__(name, **kwargs)
@@ -70,22 +46,4 @@ class KloopSpider(scrapy.Spider):
             yield response.follow(next_page_url, self.parse)
 
     def parse_article(self, response):
-        url = response.url
-        title = response.xpath('//h1[@class="entry-title"]').get()
-        text = response.xpath('//div[contains(@class, "td-post-content")]').get()
-        posted_by = response.xpath(
-            '//div[@class="td-post-author-name"]/a').get()
-        dt_xpath = (
-            '//article//div[@class="td-module-meta-info"]/'
-            'span[@class="td-post-date"]/'
-            'time[@class="entry-date updated td-module-date"]/@datetime'
-        )
-        post_date = response.xpath(dt_xpath).get()
-        created_at = dateparser.parse(post_date)
-        item = ArticleItem()
-        item['title'] = remove_tags(title)
-        item['text'] = remove_js_and_css(text)
-        item['article_url'] = url
-        item['created_at'] = created_at
-        item['posted_by'] = remove_tags(posted_by)
-        yield item
+        yield from parse_article(response)
