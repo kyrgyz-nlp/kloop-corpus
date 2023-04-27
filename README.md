@@ -27,9 +27,7 @@ DOWNLOAD_DELAY = 1
 
 ## Explore the corpus
 
-1. Open a terminal and `./run_jupyter_notebook.sh`
-2. In the Jupyter tab navigate to `kloop_corpus_explorer.ipynb`
-3. Extract articles from the `article` table (`Article` Django model) and have fun
+Unpack all_texts.txt.zip and have fun.
 
 ## Prerequisites
 
@@ -56,10 +54,7 @@ We assume you have the following packages are installed in your system:
 -   Run the server:
     `./manage.py runserver`
 
--   Open the following URL to view the articles in the admin panel (username: `admin`, password: `123`):
-    `http://localhost:8000/admin`
-
--   To run the crawler (Note: the DB already contains Kloops articles):
+-   To run the crawler
     `python manage.py crawl`
 
 ## TODO
@@ -69,4 +64,4 @@ We assume you have the following packages are installed in your system:
 -   [ ] Introduce --start-from='2020-04' kind of args to the crawler
 -   [ ] Introduce upsert logic: if the article is not in the DB, then crawl and save
 -   [ ] Remove extra whitespaces from the articles
--   [ ] Add webpages with basic corpus statistics: `frequensy dictionary`, `most frequent n-grams` etc.
+-   [ ] Add webpages with basic corpus statistics: `frequency dictionary`, `most frequent n-grams` etc.
