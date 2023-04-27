@@ -87,8 +87,7 @@ staticfiles
 # React build artifact
 frontend/build
 
-# We want to include the db into the repo
-#db.sqlite3
+db.sqlite3
 
 # Hide analysis dir for now
 analysis/
