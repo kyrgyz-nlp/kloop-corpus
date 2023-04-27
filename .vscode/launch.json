@@ -14,6 +14,15 @@
 			"justMyCode": false
 		},
 		{
+			"name": "Django: crawl feature articles",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/manage.py",
+			"args": ["crawl_feature_articles"],
+			"django": true,
+			"justMyCode": false
+		},
+		{
 			"name": "Scrapy: parse_article",
 			"type": "python",
 			"request": "launch",
@@ -58,7 +67,7 @@
 			]
 		},
 		{
-			"name": "Scrapy: features parse",
+			"name": "Scrapy: features",
 			"type": "python",
 			"request": "launch",
 			"module": "scrapy",
