@@ -27,7 +27,7 @@ DOWNLOAD_DELAY = 1
 
 ## Explore the corpus
 
-Unpack all_texts.txt.zip and have fun.
+Unpack [all_texts.txt.zip](https://github.com/kyrgyz-nlp/kloop-corpus/blob/main/all_texts.txt.zip) and have fun.
 
 ## Prerequisites
 
