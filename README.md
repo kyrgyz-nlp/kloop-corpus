@@ -29,7 +29,7 @@ DOWNLOAD_DELAY = 1
 
 Unpack [all_texts.txt.zip](https://github.com/kyrgyz-nlp/kloop-corpus/blob/main/all_texts.txt.zip) and have fun.
 
-## Prerequisites
+## Dev setup prerequisites
 
 We assume you have the following packages are installed in your system:
 
