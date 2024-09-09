@@ -10,8 +10,7 @@ Crawled content is included in the sqlite3 DB.
 # Notes:
 
 -   This is currently a work in progress (written in ~8 hours or so).
--   The spider in use doesn't know if an article has already been crawled. So this is a TODO.
--   There are 16 826 articles crawled from 2011 to 2020 (as of December 25, 2020). Due to network failures some of the articles were not crawled.
+-   There are 30 934 articles crawled from 2011 to 2024 (as of September 8, 2024). Due to network failures some of the articles were not crawled.
 -   It took more than 12 hours to crawl the articles, because of the more or less gentle crawler settings (I didn't want to stress kloop's servers):
 
 ```
@@ -57,11 +56,15 @@ We assume you have the following packages are installed in your system:
 -   To run the crawler
     `python manage.py crawl`
 
+## Changelog
+-   Sep, 08 2024: re-crawled from the beginning to update all_texts.txt.zip because the articles didn't contain valuable metadata.
+
 ## TODO
 
 -   [x] Introduce `--start-year=2020` kind of args to the crawler
+-   [ ] Extract metadata using NER models or LLM
+-   [ ] Remove whitespaces and remove empty articles
 -   [ ] Push the current version of the corpus to Hugging Face
 -   [ ] Introduce --start-from='2020-04' kind of args to the crawler
 -   [ ] Introduce upsert logic: if the article is not in the DB, then crawl and save
--   [ ] Remove extra whitespaces from the articles
 -   [ ] Add webpages with basic corpus statistics: `frequency dictionary`, `most frequent n-grams` etc.
