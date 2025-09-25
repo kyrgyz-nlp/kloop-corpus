@@ -68,3 +68,17 @@ We assume you have the following packages are installed in your system:
 -   [ ] Introduce --start-from='2020-04' kind of args to the crawler
 -   [ ] Introduce upsert logic: if the article is not in the DB, then crawl and save
 -   [ ] Add webpages with basic corpus statistics: `frequency dictionary`, `most frequent n-grams` etc.
+
+## Citing
+
+If you are using this dataset in your work, please cite it.
+```bibtex
+@misc{kyrgyz-nlp_kloop-corpus,
+  author = {{kyrgyz-nlp}},
+  title = {Kloop Corpus},
+  year = {2024},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/kyrgyz-nlp/kloop-corpus}},
+}
+```
